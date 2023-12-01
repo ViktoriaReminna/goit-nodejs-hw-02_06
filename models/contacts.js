@@ -43,7 +43,6 @@ class Contacts {
       id: nanoid(),
       ...data,
     };
-
     contacts.push(newContact);
     const dataString = JSON.stringify(contacts, null, 2);
     await fs.writeFile(this.path, dataString);
