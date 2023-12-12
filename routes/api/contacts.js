@@ -11,7 +11,7 @@ const {
 
 const { validateBody, isValidId } = require('../../middlewares');
 
-const schemas = require('../../schemas/contactValidation');
+const { schemas } = require('../../schemas/contactValidation');
 
 const router = express.Router();
 const jsonParser = express.json();
