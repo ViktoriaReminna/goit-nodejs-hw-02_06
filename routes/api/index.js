@@ -1,9 +1,9 @@
 const express = require('express');
 
-const animalRouter = require('./animals');
-
 const router = express.Router();
 
-router.use('/animals', animalRouter);
-// router.use('/users', userRouter);
+const contactRoutes = require('./contacts');
+
+router.use('/contacts', contactRoutes);
+
 module.exports = router;
