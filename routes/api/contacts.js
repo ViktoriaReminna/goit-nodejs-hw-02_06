@@ -4,40 +4,53 @@ const {
   listOfContacts,
   contactById,
   createContact,
-  deleteContact,
-  updContact,
+  updateContact,
   updateStatusContact,
+  deleteContact,
 } = require('../../controllers/contacts');
 
-const { validateBody, isValidId } = require('../../middlewares');
-
+const { validateBody, isValidId, authenticate } = require('../../middlewares');
 const { schemas } = require('../../schemas/contactValidation');
 
 const router = express.Router();
-const jsonParser = express.json();
+const parseJSON = express.json();
 
-router.get('/', listOfContacts);
+// Get all contacts
+router.get('/', authenticate, listOfContacts);
 
-router.get('/:contactId', isValidId, contactById);
+// Get contact by ID
+router.get('/:contactId', authenticate, isValidId, contactById);
 
-router.post('/', jsonParser, validateBody(schemas.addSchema), createContact);
-
-router.delete('/:contactId', isValidId, deleteContact);
-
-router.put(
-  '/:contactId',
-  jsonParser,
-  isValidId,
+// Create a contact
+router.post(
+  '/',
+  authenticate,
+  parseJSON,
   validateBody(schemas.addSchema),
-  updContact
+  createContact
 );
 
+// Update a contact
+router.put(
+  '/:contactId',
+  authenticate,
+  parseJSON,
+  isValidId,
+  validateBody(schemas.addSchema),
+  updateContact
+);
+
+// Update a contact status favorite
 router.patch(
   '/:contactId/favorite',
-  jsonParser,
+  authenticate,
+  parseJSON,
   isValidId,
   validateBody(schemas.updateFavoriteSchema),
   updateStatusContact
 );
+
+// Delete a contact
+router.delete('/:contactId', authenticate, isValidId, deleteContact);
 
 module.exports = router;
