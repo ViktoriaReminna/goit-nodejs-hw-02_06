@@ -7,6 +7,8 @@ const {
   getCurrentUser,
   subscribeUser,
   uploadAvatar,
+  verifyEmail,
+  resendVerifyEmail,
 } = require('../controllers/auth');
 
 const { validateBody, authenticate, upload } = require('../middlewares');
@@ -21,6 +23,16 @@ router.post(
   parseJSON,
   validateBody(schemas.registerSchema),
   registerUser
+);
+
+// Verification
+router.get('/verify/:verificationToken', parseJSON, verifyEmail);
+
+router.post(
+  '/verify',
+  parseJSON,
+  validateBody(schemas.emailSchema),
+  resendVerifyEmail
 );
 
 // Login a user

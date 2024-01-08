@@ -12,6 +12,7 @@ const addSchema = Joi.object({
     })
     .required(),
   favorite: Joi.boolean(),
+  owner: Joi.string(),
 });
 
 const updateFavoriteSchema = Joi.object({
@@ -30,6 +31,16 @@ const registerSchema = Joi.object({
   subscription: Joi.string()
     .valid('starter', 'pro', 'business')
     .default('starter'),
+});
+
+const emailSchema = Joi.object({
+  email: Joi.string()
+    .pattern(emailRegexp)
+    .messages({
+      'string.pattern.base':
+        'Email must be in the valid format example@example.com',
+    })
+    .required(),
 });
 
 const loginSchema = Joi.object({
@@ -56,5 +67,6 @@ const schemas = {
   registerSchema,
   loginSchema,
   subscriptionSchema,
+  emailSchema,
 };
 module.exports = { schemas };
